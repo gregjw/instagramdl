@@ -11,6 +11,31 @@ define('clientSecret', 'a759d78e8ba540f99df66f5999d71592');
 define('redirectURI', 'http://gregjw.com/instagramdl/index.php');
 define('imageDirectory','archive/');
 
+function connectToInstagram($url){
+    $ch = curl_init();
+    
+    curl_setopt_array($ch, array{
+        CURLOPT_URL             => $url,
+        CURLOPT_RETURNTRANSFER  => true,
+        CURLOPT_SSL_VERIFYPEER  => false,
+        CURLOPT_SSL_VERIFYHOST  => 2;
+    });
+    
+    $result = curl_exec($ch);
+    curl_close($ch);
+    
+    return $result;
+}
+
+function getUserID($userName){
+    $url = 'https://api.instagram.com/v1/users/search?q='.$userName.'&client_id='.clientID;
+    $instagramInfo = connectToInstagram($url);
+    $results = json_decode($instagramInfo, true);
+    
+    return $results['data'][0]['id'];
+    
+}
+
 if($_GET['code'])
 {
     $code = $_GET['code'];
@@ -30,6 +55,11 @@ if($_GET['code'])
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
     
     $result = curl_exec($curl);
+    curl_close($curl);
+    
+    $results = json_decode($result, true);
+    echo $results['user']['username'];
+    
     
 } else { ?>
     // Logged Out
