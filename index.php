@@ -36,6 +36,18 @@ function getUserID($userName){
     
 }
 
+// IMAGE PRINT OUT
+function printImages($userID){
+    $url = 'https://api.instagram.com/v1/users/'.$userID.'/media/recent?client_id='.$clientID.'&count=5';
+    $instagramInfo = connectToInstagram($url);
+    $results = json_decode($instagramInfo, true);
+    
+    foreach($results['data'] as $items){
+        $image_url = $items['images']['low_resolution']['url'];
+        echo '<img src=" ' . $image_url . ' " /> <br/>';
+    }
+}
+
 if($_GET['code'])
 {
     $code = $_GET['code'];
@@ -59,11 +71,12 @@ if($_GET['code'])
     
     $results = json_decode($result, true);
     echo $results['user']['username'];
-    
+    $userName = $results['user']['username'];
+    $userID   = getUserID($userName);
+    printImages($userID);
     
 } else { ?>
-    // Logged Out
-
+    
 <!DOCTYPE html>
 <html>
 <body>
