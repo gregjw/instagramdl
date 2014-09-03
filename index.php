@@ -42,7 +42,6 @@ function printImages($userID){
 	$instagramInfo = connectToInstagram($url);
 	$results = json_decode($instagramInfo, true);
 	
-	//parse through results
 	foreach($results['data'] as $item){
 		$image_url = $item['images']['low_resolution']['url'];
 		echo '<img src="'.$image_url.'" /> <br/>';
