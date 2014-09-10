@@ -1,0 +1,9 @@
+body {
+    width: 100%;
+}
+
+#dl{
+    font-family: 'Open Sans', sans-serif;
+    text-decoration: none;
+    color: #80d4ff;
+}
